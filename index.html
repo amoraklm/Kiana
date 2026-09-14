@@ -636,7 +636,7 @@
                 </div>
                 <div class="stat-item">
                     <span class="stat-number">∞</span>
-                    <span class="stat-label">دسی‌بل جیغ</span>
+                    <span class="stat-label">مقدار جیغ</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-number">۰</span>
@@ -681,4 +681,109 @@
         </div>
 
         <!-- بخش ناخن‌های تیز -->
-   
+        <div class="nails-section">
+            <h2 class="nails-title">💅 گالری ناخن‌های تیز 💅</h2>
+            <p style="color: white; font-size: 1.4em; margin-bottom: 20px;">
+                روی هر ناخن کلیک کن... اگه جرأت داری! 😈
+            </p>
+            <div class="nails-gallery">
+                <div class="nail-item">💅</div>
+                <div class="nail-item">💅</div>
+                <div class="nail-item">💅</div>
+                <div class="nail-item">💅</div>
+                <div class="nail-item">💅</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- فوتر -->
+    <footer>
+        <p class="footer-text">ساخته شده با... خب... با کمی ترس! 😅💖</p>
+        <div class="warning">
+            ⚠️ هشدار: ورود کیانا به این صفحه ممکن است باعث جیغ کشیدن شود! ⚠️
+        </div>
+        <div class="hearts">❤️ 🧡 💛 💚 💙 💜</div>
+        <p style="margin-top: 20px; font-size: 1.1em;">ساخته شده توسط حسین</p>
+    </footer>
+
+    <script>
+        // افکت جیغ هنگام کلیک روی هدر
+        const header = document.querySelector('header');
+        header.addEventListener('click', function() {
+            const scream = document.createElement('div');
+            scream.className = 'scream-effect';
+            scream.textContent = '📢';
+            document.body.appendChild(scream);
+            
+            setTimeout(() => scream.remove(), 1000);
+        });
+
+        // افکت چنگ زدن روی ناخن‌ها
+        const nailItems = document.querySelectorAll('.nail-item');
+        nailItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // ایجاد ذرات چنگ
+                for (let i = 0; i < 8; i++) {
+                    const scratch = document.createElement('div');
+                    scratch.textContent = '💥';
+                    scratch.style.position = 'fixed';
+                    scratch.style.fontSize = '30px';
+                    scratch.style.pointerEvents = 'none';
+                    scratch.style.zIndex = '1000';
+                    scratch.style.transition = 'all 0.8s ease-out';
+                    
+                    const rect = this.getBoundingClientRect();
+                    scratch.style.left = rect.left + rect.width / 2 + 'px';
+                    scratch.style.top = rect.top + rect.height / 2 + 'px';
+                    
+                    document.body.appendChild(scratch);
+                    
+                    const angle = (Math.PI * 2 / 8) * i;
+                    const distance = 100;
+                    
+                    setTimeout(() => {
+                        scratch.style.left = (rect.left + rect.width / 2 + Math.cos(angle) * distance) + 'px';
+                        scratch.style.top = (rect.top + rect.height / 2 + Math.sin(angle) * distance) + 'px';
+                        scratch.style.opacity = '0';
+                        scratch.style.transform = 'scale(2) rotate(' + (Math.random() * 360) + 'deg)';
+                    }, 10);
+                    
+                    setTimeout(() => scratch.remove(), 800);
+                }
+            });
+        });
+
+        // افکت جیغ تصادفی هر ۱۰ ثانیه
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                const randomScream = document.createElement('div');
+                randomScream.className = 'scream-effect';
+                randomScream.textContent = ['📢', '😱', '🗯️'][Math.floor(Math.random() * 3)];
+                randomScream.style.left = Math.random() * 80 + 10 + '%';
+                randomScream.style.top = Math.random() * 80 + 10 + '%';
+                document.body.appendChild(randomScream);
+                
+                setTimeout(() => randomScream.remove(), 1000);
+            }
+        }, 10000);
+
+        // پیام کنایه‌آمیز
+        setTimeout(() => {
+            console.log('🌊 به دنیای کیانا خوش آمدید! 🌊');
+            console.log('🏊‍♀️ شناگر | 📢 جیغ‌زننده | 💅 چنگ‌زننده');
+            console.log('⚠️ هشدار: آرامش در این صفحه وجود ندارد! ⚠️');
+        }, 1000);
+
+        // افکت موج روی کارت‌ها
+        const infoCards = document.querySelectorAll('.info-card');
+        infoCards.forEach((card, index) => {
+            card.addEventListener('mouseenter', function() {
+                this.style.animation = 'none';
+                setTimeout(() => {
+                    this.style.animation = 'wiggle 0.5s';
+                }, 10);
+            });
+        });
+    </script>
+</body>
+</html>
