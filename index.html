@@ -1,789 +1,477 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌊 دنیای کیانا 🌊</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Vazir', 'Comic Sans MS', cursive, sans-serif;
-            background: linear-gradient(180deg, #74b9ff 0%, #0984e3 100%);
-            overflow-x: hidden;
-            min-height: 100vh;
-            position: relative;
-        }
-
-        /* حباب‌های متحرک */
-        .bubble {
-            position: fixed;
-            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
-            border-radius: 50%;
-            animation: rise 15s infinite ease-in;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .bubble1 { width: 60px; height: 60px; left: 10%; animation-delay: 0s; }
-        .bubble2 { width: 80px; height: 80px; left: 30%; animation-delay: 3s; }
-        .bubble3 { width: 50px; height: 50px; left: 50%; animation-delay: 6s; }
-        .bubble4 { width: 70px; height: 70px; left: 70%; animation-delay: 9s; }
-        .bubble5 { width: 90px; height: 90px; left: 85%; animation-delay: 12s; }
-
-        @keyframes rise {
-            0% {
-                bottom: -100px;
-                transform: translateX(0) scale(0.5);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                bottom: 110%;
-                transform: translateX(100px) scale(1);
-                opacity: 0;
-            }
-        }
-
-        /* موج‌های آب */
-        .waves {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 150px;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .wave {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 200%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,60 C150,90 350,30 600,60 C850,90 1050,30 1200,60 L1200,120 L0,120 Z" fill="rgba(255,255,255,0.3)"/></svg>');
-            background-size: 1200px 120px;
-            animation: wave 10s linear infinite;
-        }
-
-        .wave2 {
-            animation: wave 15s linear infinite;
-            opacity: 0.5;
-            animation-delay: -5s;
-        }
-
-        @keyframes wave {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-1200px); }
-        }
-
-        /* هدر اصلی */
-        header {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            padding: 60px 20px;
-            background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
-            border-radius: 0 0 60px 60px;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
-            margin-bottom: 40px;
-            overflow: hidden;
-        }
-
-        .avatar {
-            width: 220px;
-            height: 220px;
-            margin: 0 auto 30px;
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            border-radius: 50%;
-            border: 10px solid white;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 90px;
-            animation: shake 0.5s infinite;
-            position: relative;
-        }
-
-        .avatar::before {
-            content: '🏊‍♀️';
-            font-size: 110px;
-            position: absolute;
-            animation: swim 3s infinite ease-in-out;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0) rotate(0deg); }
-            25% { transform: translateX(-5px) rotate(-2deg); }
-            75% { transform: translateX(5px) rotate(2deg); }
-        }
-
-        @keyframes swim {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-30px) rotate(10deg); }
-        }
-
-        h1 {
-            color: white;
-            font-size: 3.2em;
-            text-shadow: 4px 4px 8px rgba(0,0,0,0.4);
-            margin-bottom: 10px;
-            animation: scream 2s infinite;
-        }
-
-        @keyframes scream {
-            0%, 100% { 
-                transform: scale(1);
-                text-shadow: 4px 4px 8px rgba(0,0,0,0.4);
-            }
-            50% { 
-                transform: scale(1.1);
-                text-shadow: 4px 4px 8px rgba(0,0,0,0.4), 0 0 30px #ff0000, 0 0 50px #ff0000;
-            }
-        }
-
-        .subtitle {
-            color: white;
-            font-size: 1.6em;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        /* کارت‌های اطلاعات */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .info-card {
-            background: white;
-            border-radius: 35px;
-            padding: 35px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .info-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent);
-            transform: rotate(45deg);
-            transition: all 0.6s;
-        }
-
-        .info-card:hover {
-            transform: translateY(-15px) rotate(2deg);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.35);
-        }
-
-        .info-card:hover::before {
-            left: 100%;
-        }
-
-        .card-icon {
-            font-size: 70px;
-            margin-bottom: 20px;
-            display: block;
-            animation: wiggle 1.5s infinite;
-        }
-
-        @keyframes wiggle {
-            0%, 100% { transform: rotate(0deg) scale(1); }
-            25% { transform: rotate(-15deg) scale(1.1); }
-            75% { transform: rotate(15deg) scale(1.1); }
-        }
-
-        .card-title {
-            font-size: 2em;
-            color: #fd79a8;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
-        .card-content {
-            font-size: 1.3em;
-            color: #555;
-            line-height: 1.8;
-        }
-
-        /* بخش جیغ‌سنج */
-        .scream-section {
-            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
-            border-radius: 45px;
-            padding: 50px;
-            margin: 40px 0;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .scream-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 10px,
-                rgba(255,255,255,0.1) 10px,
-                rgba(255,255,255,0.1) 20px
-            );
-            animation: move 2s linear infinite;
-        }
-
-        @keyframes move {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(28px); }
-        }
-
-        .scream-title {
-            color: white;
-            font-size: 2.8em;
-            margin-bottom: 30px;
-            text-shadow: 4px 4px 8px rgba(0,0,0,0.4);
-            position: relative;
-            z-index: 1;
-        }
-
-        .scream-meter {
-            background: white;
-            border-radius: 30px;
-            padding: 40px;
-            margin: 30px 0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .meter-bar {
-            width: 100%;
-            height: 60px;
-            background: linear-gradient(90deg, #2ecc71 0%, #f1c40f 50%, #e74c3c 100%);
-            border-radius: 30px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-        }
-
-        .meter-fill {
-            height: 100%;
-            width: 104%;
-            background: rgba(255,255,255,0.3);
-            border-radius: 30px;
-            animation: overflow 3s infinite;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding-left: 20px;
-            font-size: 2em;
-        }
-
-        @keyframes overflow {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(20px); }
-        }
-
-        .scream-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .stat-item {
-            background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
-            border-radius: 20px;
-            padding: 25px;
-            color: white;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .stat-item:hover {
-            transform: scale(1.1) rotate(-3deg);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .stat-number {
-            font-size: 3em;
-            font-weight: bold;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .stat-label {
-            font-size: 1.2em;
-        }
-
-        /* بخش مقایسه با کیان */
-        .comparison-section {
-            background: white;
-            border-radius: 45px;
-            padding: 50px;
-            margin: 40px 0;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
-        }
-
-        .comparison-title {
-            text-align: center;
-            font-size: 2.8em;
-            color: #0984e3;
-            margin-bottom: 40px;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
-        }
-
-        .comparison-grid {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 30px;
-            align-items: center;
-        }
-
-        .person-card {
-            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
-            border-radius: 30px;
-            padding: 40px;
-            text-align: center;
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .person-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-        }
-
-        .person-card.kiana {
-            background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
-        }
-
-        .person-icon {
-            font-size: 100px;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .person-name {
-            font-size: 2em;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
-        .person-traits {
-            font-size: 1.2em;
-            line-height: 2;
-        }
-
-        .vs-badge {
-            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5em;
-            font-weight: bold;
-            color: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            animation: rotate 5s infinite linear;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* بخش ناخن‌های تیز */
-        .nails-section {
-            background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
-            border-radius: 45px;
-            padding: 50px;
-            margin: 40px 0;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            text-align: center;
-        }
-
-        .nails-title {
-            color: white;
-            font-size: 2.8em;
-            margin-bottom: 30px;
-            text-shadow: 4px 4px 8px rgba(0,0,0,0.4);
-        }
-
-        .nails-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .nail-item {
-            background: white;
-            border-radius: 25px;
-            padding: 30px;
-            font-size: 60px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nail-item:hover {
-            transform: scale(1.2) rotate(10deg);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-        }
-
-        .nail-item::after {
-            content: '💥';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            font-size: 40px;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .nail-item:hover::after {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1.5);
-        }
-
-        /* فوتر */
-        footer {
-            background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
-            color: white;
-            text-align: center;
-            padding: 50px;
-            border-radius: 50px 50px 0 0;
-            margin-top: 60px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .footer-text {
-            font-size: 1.4em;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .warning {
-            background: rgba(255,255,255,0.3);
-            border-radius: 20px;
-            padding: 20px;
-            margin: 20px 0;
-            font-size: 1.2em;
-        }
-
-        .hearts {
-            font-size: 2.5em;
-            animation: pulse 1s infinite;
-        }
-
-        /* ریسپانسیو */
-        @media (max-width: 768px) {
-            h1 { font-size: 2.2em; }
-            .subtitle { font-size: 1.3em; }
-            .avatar { width: 160px; height: 160px; }
-            .avatar::before { font-size: 80px; }
-            .scream-title, .comparison-title, .nails-title { font-size: 2em; }
-            .comparison-grid { grid-template-columns: 1fr; }
-            .vs-badge { margin: 20px auto; }
-        }
-
-        /* انیمیشن ورود */
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(60px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .info-card, .stat-item, .person-card, .nail-item {
-            animation: slideIn 0.8s ease-out;
-        }
-
-        /* افکت جیغ */
-        .scream-effect {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 150px;
-            z-index: 1000;
-            pointer-events: none;
-            animation: screamPop 1s ease-out forwards;
-        }
-
-        @keyframes screamPop {
-            0% {
-                transform: translate(-50%, -50%) scale(0);
-                opacity: 1;
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.5);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(2);
-                opacity: 0;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#071827">
+  <meta name="description" content="پرونده‌ای کاملاً غیررسمی از میزان شیطنت، سر و صدا و انرژی تمام‌نشدنی کیانا.">
+  <title>پرونده محرمانه کیانا | واحد کنترل آشوب</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #071827;
+      --bg-soft: #0c2335;
+      --panel: rgba(17, 43, 62, .82);
+      --panel-strong: #102b40;
+      --line: rgba(183, 220, 239, .13);
+      --text: #f3f8fc;
+      --muted: #a9bdcb;
+      --cyan: #58d5e8;
+      --blue: #3188d7;
+      --coral: #ff7c83;
+      --yellow: #ffd166;
+      --green: #83e0b0;
+      --radius: 24px;
+      --shadow: 0 24px 70px rgba(0, 0, 0, .28);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 8% 9%, rgba(49, 136, 215, .23), transparent 32rem),
+        radial-gradient(ellipse at 94% 28%, rgba(255, 124, 131, .13), transparent 30rem),
+        linear-gradient(145deg, #061522 0%, #0a2032 52%, #071827 100%);
+      font-family: Vazirmatn, IRANSans, Tahoma, sans-serif;
+      line-height: 1.8;
+    }
+
+    body::before, body::after {
+      content: "";
+      position: fixed;
+      z-index: -1;
+      width: 340px;
+      height: 340px;
+      border: 1px solid rgba(88, 213, 232, .08);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    body::before { top: 18%; right: -230px; box-shadow: 0 0 0 36px rgba(88,213,232,.025), 0 0 0 72px rgba(88,213,232,.018); }
+    body::after { bottom: -220px; left: -190px; width: 420px; height: 420px; box-shadow: 0 0 0 42px rgba(255,124,131,.025), 0 0 0 84px rgba(255,124,131,.018); }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .shell { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(5, 19, 31, .78);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+    }
+    .brand { display: inline-flex; align-items: center; gap: 11px; font-weight: 900; letter-spacing: -.4px; white-space: nowrap; }
+    .brand-mark {
+      display: grid; place-items: center; width: 42px; height: 42px;
+      border-radius: 14px; color: #071827; font-size: 22px;
+      background: linear-gradient(145deg, var(--cyan), #a3eff5);
+      box-shadow: 0 8px 24px rgba(88,213,232,.22);
+    }
+    .brand small { display: block; color: var(--muted); font-size: 10px; font-weight: 600; letter-spacing: 1.2px; }
+    .nav-links { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; }
+    .nav-links a { padding: 9px 13px; border-radius: 12px; transition: .2s ease; }
+    .nav-links a:hover, .nav-links a:focus-visible { color: var(--text); background: rgba(255,255,255,.07); outline: none; }
+    .status-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid rgba(255,124,131,.25); color: #ffb7bb; background: rgba(255,124,131,.08); border-radius: 999px; font-size: 11px; white-space: nowrap; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 0 5px rgba(255,124,131,.12); }
+
+    .hero { position: relative; padding: 82px 0 54px; }
+    .hero-grid { display: grid; grid-template-columns: 1.12fr .88fr; align-items: center; gap: 54px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--cyan); font-size: 12px; font-weight: 800; letter-spacing: .3px; }
+    .eyebrow::before { content: ""; width: 28px; height: 1px; background: currentColor; }
+    h1 { margin: 15px 0 18px; max-width: 700px; font-size: clamp(38px, 6vw, 70px); line-height: 1.25; letter-spacing: -2.5px; }
+    h1 .accent { color: var(--coral); text-shadow: 0 8px 35px rgba(255,124,131,.2); }
+    .hero-copy { max-width: 620px; color: var(--muted); font-size: 16px; margin: 0; }
+    .hero-copy strong { color: var(--text); font-weight: 800; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 29px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 48px; border: 1px solid transparent; border-radius: 14px; padding: 0 18px; cursor: pointer; font-weight: 800; font-size: 13px; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+    .btn:hover { transform: translateY(-3px); }
+    .btn:focus-visible { outline: 3px solid rgba(88,213,232,.45); outline-offset: 3px; }
+    .btn-primary { color: #06202c; background: linear-gradient(135deg, var(--cyan), #a2edf2); box-shadow: 0 12px 28px rgba(88,213,232,.18); }
+    .btn-secondary { color: var(--text); border-color: var(--line); background: rgba(255,255,255,.045); }
+    .hero-note { display: flex; align-items: center; gap: 9px; margin-top: 22px; color: #829aaa; font-size: 11px; }
+
+    .hero-visual { position: relative; min-height: 390px; display: grid; place-items: center; }
+    .visual-orbit { position: absolute; width: min(370px, 85vw); aspect-ratio: 1; border: 1px solid rgba(88,213,232,.2); border-radius: 50%; box-shadow: 0 0 0 24px rgba(88,213,232,.025), 0 0 0 58px rgba(88,213,232,.018); }
+    .visual-orbit::before, .visual-orbit::after { content: ""; position: absolute; border: 1px dashed rgba(255,124,131,.22); border-radius: 50%; inset: 27px; transform: rotate(25deg) scaleX(1.15); }
+    .visual-orbit::after { inset: 55px; transform: rotate(-25deg) scaleX(1.2); }
+    .character-card {
+      position: relative; z-index: 1; width: min(290px, 75vw); min-height: 310px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      border: 1px solid rgba(255,255,255,.2); border-radius: 34px;
+      background: linear-gradient(155deg, rgba(255,255,255,.17), rgba(255,255,255,.035));
+      box-shadow: var(--shadow); backdrop-filter: blur(18px); transform: rotate(3deg);
+    }
+    .character-face { display: grid; place-items: center; width: 150px; height: 150px; border-radius: 48px; font-size: 82px; background: linear-gradient(145deg, #ffd7b5, #ff8f98); box-shadow: 0 18px 40px rgba(255,124,131,.22); transform: rotate(-5deg); }
+    .character-name { margin-top: 22px; font-size: 24px; font-weight: 900; }
+    .character-sub { color: var(--muted); font-size: 11px; }
+    .float-tag { position: absolute; z-index: 2; padding: 9px 13px; border: 1px solid var(--line); border-radius: 12px; color: var(--text); background: #102a40; box-shadow: 0 10px 25px rgba(0,0,0,.2); font-size: 11px; font-weight: 800; }
+    .tag-one { top: 52px; right: 0; transform: rotate(-7deg); }
+    .tag-two { bottom: 53px; left: 0; transform: rotate(6deg); }
+    .tag-three { top: 52%; right: -12px; color: #ffd7da; background: #3b2637; transform: rotate(5deg); }
+
+    .section { padding: 52px 0; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 23px; }
+    .section-kicker { color: var(--cyan); font-size: 11px; font-weight: 900; letter-spacing: 1.5px; }
+    h2 { margin: 5px 0 0; font-size: clamp(24px, 4vw, 34px); line-height: 1.4; letter-spacing: -.8px; }
+    .section-desc { max-width: 430px; margin: 0; color: var(--muted); font-size: 12px; }
+
+    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .metric { position: relative; overflow: hidden; padding: 21px; border: 1px solid var(--line); border-radius: 19px; background: var(--panel); box-shadow: 0 12px 35px rgba(0,0,0,.12); }
+    .metric::after { content: ""; position: absolute; width: 90px; height: 90px; border-radius: 50%; left: -38px; bottom: -45px; background: rgba(88,213,232,.07); }
+    .metric-label { color: var(--muted); font-size: 11px; }
+    .metric-value { display: block; margin-top: 7px; font-size: 31px; font-weight: 900; line-height: 1.3; }
+    .metric-foot { color: #8ca4b5; font-size: 10px; }
+    .metric:nth-child(2) .metric-value { color: var(--coral); }
+    .metric:nth-child(3) .metric-value { color: var(--yellow); }
+    .metric:nth-child(4) .metric-value { color: var(--cyan); }
+
+    .dashboard-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 18px; }
+    .panel { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); box-shadow: var(--shadow); }
+    .meter-panel { padding: 27px; }
+    .panel-top { display: flex; align-items: start; justify-content: space-between; gap: 14px; }
+    .panel-title { margin: 0; font-size: 17px; }
+    .panel-caption { margin: 5px 0 0; color: var(--muted); font-size: 11px; }
+    .level-chip { padding: 6px 10px; border-radius: 9px; color: #ffd7da; background: rgba(255,124,131,.12); font-size: 10px; font-weight: 800; white-space: nowrap; }
+    .meter-number { display: flex; align-items: baseline; gap: 7px; margin: 27px 0 14px; }
+    .meter-number strong { font-size: 48px; line-height: 1; }
+    .meter-number span { color: var(--muted); font-size: 12px; }
+    .meter-track { height: 13px; overflow: hidden; border-radius: 99px; background: #071724; box-shadow: inset 0 2px 5px rgba(0,0,0,.4); }
+    .meter-progress { width: 97%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--cyan), #ffd166 58%, var(--coral)); box-shadow: 0 0 18px rgba(255,124,131,.28); transition: width .35s ease; }
+    .meter-scale { display: flex; justify-content: space-between; margin-top: 9px; color: #829aaa; font-size: 10px; }
+    .meter-quote { margin: 22px 0 0; padding: 14px 16px; border-right: 3px solid var(--coral); border-radius: 10px 0 0 10px; color: #dce8ef; background: rgba(255,124,131,.07); font-size: 12px; }
+    .meter-quote strong { color: var(--coral); }
+
+    .actions-panel { padding: 25px; display: flex; flex-direction: column; justify-content: space-between; gap: 20px; }
+    .action-card { padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,255,255,.035); }
+    .action-card h3 { margin: 0 0 5px; font-size: 14px; }
+    .action-card p { min-height: 44px; margin: 0 0 13px; color: var(--muted); font-size: 11px; }
+    .action-card .btn { min-height: 40px; width: 100%; font-size: 11px; }
+    .feedback { min-height: 20px; margin: 10px 0 0; color: var(--green); font-size: 10px; }
+
+    .roast-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .roast-card { min-height: 205px; padding: 23px; border: 1px solid var(--line); border-radius: 20px; background: linear-gradient(150deg, rgba(255,255,255,.075), rgba(255,255,255,.018)); transition: transform .22s ease, border-color .22s ease; }
+    .roast-card:hover { transform: translateY(-5px); border-color: rgba(88,213,232,.35); }
+    .roast-icon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 15px; margin-bottom: 17px; background: rgba(88,213,232,.12); font-size: 24px; }
+    .roast-card:nth-child(2) .roast-icon { background: rgba(255,124,131,.12); }
+    .roast-card:nth-child(3) .roast-icon { background: rgba(255,209,102,.12); }
+    .roast-card h3 { margin: 0 0 7px; font-size: 15px; }
+    .roast-card p { margin: 0; color: var(--muted); font-size: 12px; }
+    .roast-card p strong { color: var(--text); }
+
+    .versus { padding: 34px; overflow: hidden; }
+    .versus-grid { display: grid; grid-template-columns: 1fr auto 1fr; align-items: stretch; gap: 18px; margin-top: 24px; }
+    .person { padding: 24px; border: 1px solid var(--line); border-radius: 20px; background: #0b263a; }
+    .person.kiana { background: linear-gradient(145deg, rgba(255,124,131,.18), rgba(255,124,131,.04)); border-color: rgba(255,124,131,.2); }
+    .person-heading { display: flex; align-items: center; gap: 13px; margin-bottom: 17px; }
+    .person-emoji { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 17px; background: rgba(88,213,232,.12); font-size: 30px; }
+    .kiana .person-emoji { background: rgba(255,124,131,.15); }
+    .person h3 { margin: 0; font-size: 19px; }
+    .person small { color: var(--muted); font-size: 10px; }
+    .person ul { margin: 0; padding: 0 18px 0 0; color: #c1d0da; font-size: 12px; }
+    .person li { padding: 5px 0; }
+    .versus-mark { align-self: center; display: grid; place-items: center; width: 58px; height: 58px; border-radius: 18px; color: #081b29; background: linear-gradient(145deg, var(--yellow), #ff9d75); font-size: 17px; font-weight: 1000; transform: rotate(-7deg); box-shadow: 0 10px 28px rgba(255,157,117,.2); }
+    .verdict { margin: 22px 0 0; padding: 14px 17px; border-radius: 13px; color: #ffe3b1; background: rgba(255,209,102,.08); text-align: center; font-size: 12px; }
+
+    .warning-strip { display: flex; align-items: center; gap: 15px; margin-top: 20px; padding: 18px 21px; border: 1px solid rgba(255,209,102,.2); border-radius: 17px; background: rgba(255,209,102,.06); }
+    .warning-icon { font-size: 25px; }
+    .warning-strip strong { display: block; color: var(--yellow); font-size: 12px; }
+    .warning-strip span { color: var(--muted); font-size: 11px; }
+
+    footer { margin-top: 48px; padding: 35px 0 28px; border-top: 1px solid var(--line); background: rgba(2,12,20,.35); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .footer-title { font-size: 14px; font-weight: 900; }
+    .footer-copy { margin: 4px 0 0; color: var(--muted); font-size: 10px; }
+    .footer-sign { color: #718b9d; font-size: 10px; text-align: left; }
+    .toast { position: fixed; z-index: 50; right: 50%; bottom: 24px; transform: translate(50%, 20px); opacity: 0; pointer-events: none; padding: 11px 16px; border: 1px solid rgba(88,213,232,.25); border-radius: 12px; color: var(--text); background: #12334a; box-shadow: var(--shadow); font-size: 12px; transition: .25s ease; }
+    .toast.show { opacity: 1; transform: translate(50%, 0); }
+
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr .8fr; gap: 20px; }
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      .dashboard-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 650px) {
+      .shell { width: min(100% - 28px, 540px); }
+      .nav { min-height: 66px; flex-wrap: wrap; padding: 10px 0; }
+      .nav-links { order: 3; width: 100%; overflow-x: auto; padding-bottom: 2px; }
+      .nav-links a { white-space: nowrap; padding: 6px 10px; }
+      .status-pill { font-size: 9px; }
+      .hero { padding: 48px 0 25px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      h1 { letter-spacing: -1.4px; }
+      .hero-copy { font-size: 14px; }
+      .hero-visual { min-height: 340px; margin-top: 4px; }
+      .visual-orbit { width: 285px; }
+      .character-card { min-height: 270px; width: 245px; }
+      .character-face { width: 125px; height: 125px; font-size: 68px; }
+      .tag-one { right: 3%; top: 35px; }
+      .tag-two { left: 2%; bottom: 33px; }
+      .tag-three { right: 0; }
+      .section { padding: 35px 0; }
+      .section-head { align-items: start; flex-direction: column; }
+      .section-desc { max-width: none; }
+      .metrics { gap: 9px; }
+      .metric { padding: 15px; }
+      .metric-value { font-size: 26px; }
+      .meter-panel, .actions-panel { padding: 19px; }
+      .roast-grid { grid-template-columns: 1fr; }
+      .roast-card { min-height: auto; }
+      .versus { padding: 20px; }
+      .versus-grid { grid-template-columns: 1fr; }
+      .versus-mark { margin: -4px auto; transform: rotate(90deg); }
+      .footer-inner { align-items: start; flex-direction: column; }
+      .footer-sign { text-align: right; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
 </head>
 <body>
-    <!-- حباب‌های متحرک -->
-    <div class="bubble bubble1"></div>
-    <div class="bubble bubble2"></div>
-    <div class="bubble bubble3"></div>
-    <div class="bubble bubble4"></div>
-    <div class="bubble bubble5"></div>
+  <div class="topbar">
+    <nav class="nav shell" aria-label="ناوبری اصلی">
+      <a class="brand" href="#top" aria-label="بازگشت به ابتدای صفحه">
+        <span class="brand-mark">🌊</span>
+        <span>واحد کنترل آشوب<small>KIANA CASE FILE / 2026</small></span>
+      </a>
+      <div class="nav-links">
+        <a href="#report">گزارش وضعیت</a>
+        <a href="#traits">ویژگی‌ها</a>
+        <a href="#comparison">مقایسه</a>
+      </div>
+      <span class="status-pill"><span class="status-dot"></span> وضعیت: خارج از کنترل</span>
+    </nav>
+  </div>
 
-    <!-- موج‌های آب -->
-    <div class="waves">
-        <div class="wave"></div>
-        <div class="wave wave2"></div>
-    </div>
+  <main id="top">
+    <header class="hero shell">
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow">پرونده شماره ۰۰۷؛ محرمانه ولی قابل‌پخش</span>
+          <h1>این‌جا دنیای <span class="accent">کیانا</span> است؛<br>جایی برای سکوت؟ <span class="accent">عمراً.</span></h1>
+          <p class="hero-copy">
+            با پدیده‌ای روبه‌رو هستیم که هم‌زمان شنا می‌کند، فرمان صادر می‌کند و طوری جیغ می‌زند که
+            <strong>بلندگوی استادیوم احساس کمبود اعتمادبه‌نفس می‌کند.</strong>
+            کارشناسان هنوز نفهمیده‌اند این همه انرژی از کجا می‌آید؛ خود کیانا هم احتمالاً وسط توضیح‌دادن، بحث را می‌برد سمت خودش.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#report">مشاهده گزارش تخلفات صوتی <span>←</span></a>
+            <button class="btn btn-secondary" id="randomRoastBtn" type="button">یه کنایه تصادفی بزن</button>
+          </div>
+          <div class="hero-note"><span>ⓘ</span> این پرونده کاملاً طنز است؛ لطفاً با مسئولیت خودتان بخوانید.</div>
+        </div>
 
-    <!-- هدر -->
-    <header>
-        <div class="avatar"></div>
-        <h1>🌊 کیانا مهدی تکیه مقدم 🌊</h1>
-        <p class="subtitle">🏊‍♀️ شناگر حرفه‌ای | 📢 جیغ‌زننده حرفه‌ای‌تر! 📢</p>
+        <div class="hero-visual" aria-label="تصویر نمادین شناگر پرانرژی">
+          <div class="visual-orbit"></div>
+          <span class="float-tag tag-one">⚠️ سطح انرژی: مشکوک</span>
+          <span class="float-tag tag-two">📢 صدای محیط: تسلیم شد</span>
+          <span class="float-tag tag-three">💅 ناخن‌ها: آماده‌باش</span>
+          <div class="character-card">
+            <div class="character-face" aria-hidden="true">🏊🏻‍♀️</div>
+            <div class="character-name">کیانا</div>
+            <div class="character-sub">شناگر، مذاکره‌گر و رئیس غیررسمی جهان</div>
+          </div>
+        </div>
+      </div>
     </header>
 
-    <div class="container">
-        <!-- کارت‌های اطلاعات -->
-        <div class="info-grid">
-            <div class="info-card">
-                <span class="card-icon">👯‍♀️</span>
-                <h2 class="card-title">دوقلوی کیان</h2>
-                <p class="card-content">ما دوقلوی همسانیم، ولی ۱۸۰ درجه فرق داریم! 😅</p>
-            </div>
-
-            <div class="info-card">
-                <span class="card-icon">🏊‍♀️</span>
-                <h2 class="card-title">شناگر</h2>
-                <p class="card-content">توی آب مثل ماهی‌ام! 🐟 ولی بیرون آب... 🌊</p>
-            </div>
-
-            <div class="info-card">
-                <span class="card-icon">💅</span>
-                <h2 class="card-title">ناخن‌های تیز</h2>
-                <p class="card-content">مواظب باش! با ناخن‌هام چنگ می‌زنم! 😼</p>
-            </div>
+    <section class="section shell" id="report">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">LIVE DIAGNOSTICS</div>
+          <h2>گزارش وضعیت؛ اوضاع کمی عادی نیست</h2>
         </div>
+        <p class="section-desc">آمارها بر اساس بررسی‌های کاملاً غیرعلمی و تجربهٔ اطرافیانِ احتمالاً خسته ثبت شده‌اند.</p>
+      </div>
 
-        <!-- بخش جیغ‌سنج -->
-        <div class="scream-section">
-            <h2 class="scream-title">📢 جیغ‌سنج کیانا 📢</h2>
-            
-            <div class="scream-meter">
-                <h3 style="font-size: 1.8em; color: #333; margin-bottom: 20px;">میزان جیغ روزانه:</h3>
-                <div class="meter-bar">
-                    <div class="meter-fill">
-                        <span>📢📢📢</span>
-                    </div>
-                </div>
-                <p style="margin-top: 15px; font-size: 1.3em; color: #666;">
-                    ⚠️ هشدار: از ظرفیت نوار فراتر رفته! ⚠️
-                </p>
-            </div>
+      <div class="metrics">
+        <article class="metric"><span class="metric-label">ساعت‌های ادعاییِ روز</span><strong class="metric-value">۲۵ ساعت</strong><span class="metric-foot">تقویم هم درخواست تجدیدنظر داده</span></article>
+        <article class="metric"><span class="metric-label">ظرفیت جیغ</span><strong class="metric-value">∞ دسی‌بل</strong><span class="metric-foot">دستگاه اندازه‌گیری استعفا داد</span></article>
+        <article class="metric"><span class="metric-label">دقیقه سکوتِ ثبت‌شده</span><strong class="metric-value">۰:۰۰</strong><span class="metric-foot">احتمالاً رکورد جهانی</span></article>
+        <article class="metric"><span class="metric-label">درصد اطمینان به حقانیت</span><strong class="metric-value">۱۰۰٪</strong><span class="metric-foot">حتی وقتی موضوع هنوز مشخص نیست</span></article>
+      </div>
 
-            <div class="scream-stats">
-                <div class="stat-item">
-                    <span class="stat-number">۲۵</span>
-                    <span class="stat-label">ساعت طلبکاری در روز</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">∞</span>
-                    <span class="stat-label">مقدار جیغ</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">۰</span>
-                    <span class="stat-label">دقیقه آرامش</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">۱۰۰٪</span>
-                    <span class="stat-label">حق به جانب</span>
-                </div>
-            </div>
+      <div class="dashboard-grid" style="margin-top:18px">
+        <article class="panel meter-panel">
+          <div class="panel-top">
+            <div><h3 class="panel-title">شاخص آشوب کیانا</h3><p class="panel-caption">میزان سر و صدا نسبت به ظرفیت تحمل اطرافیان</p></div>
+            <span class="level-chip">بحرانیِ بامزه</span>
+          </div>
+          <div class="meter-number"><strong id="meterValue">۹۷</strong><span>از ۱۰۰؛ فعلاً روی کاغذ</span></div>
+          <div class="meter-track" role="progressbar" aria-label="شاخص آشوب کیانا" aria-valuemin="0" aria-valuemax="100" aria-valuenow="97" id="meterTrack"><div class="meter-progress" id="meterProgress"></div></div>
+          <div class="meter-scale"><span>آرامش نسبی</span><span>همسایه‌ها در حال نقل مکان</span></div>
+          <p class="meter-quote" id="meterQuote"><strong>نتیجه بررسی:</strong> اگر سکوت طلاست، کیانا معدن‌دارِ مخالفِ استخراج است.</p>
+        </article>
+
+        <aside class="panel actions-panel">
+          <div>
+            <h3 class="panel-title">پنل عملیات ویژه</h3>
+            <p class="panel-caption">دو ابزار حیاتی برای مدیریت شرایط غیرقابل‌مدیریت</p>
+          </div>
+          <div class="action-card">
+            <h3>📢 ثبت یک جیغ جدید</h3>
+            <p>هر بار کلیک، یک واحد به سابقهٔ صوتی پرونده اضافه می‌کند. لطفاً پنجره‌ها را ببندید.</p>
+            <button class="btn btn-primary" id="screamBtn" type="button">ثبت جیغ <span>+</span></button>
+            <p class="feedback" id="screamFeedback" aria-live="polite">تعداد جیغ‌های ثبت‌شده: ۰</p>
+          </div>
+          <div class="action-card">
+            <h3>🧠 تولید بهانهٔ رسمی</h3>
+            <p id="excuseText">برای شروع، دکمه را بزنید تا سیستم یک توضیح کاملاً غیرقابل‌قبول بسازد.</p>
+            <button class="btn btn-secondary" id="excuseBtn" type="button">تولید بهانه جدید</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section shell" id="traits">
+      <div class="section-head">
+        <div><div class="section-kicker">SUBJECT PROFILE</div><h2>سه قابلیت که کسی درخواستش را نداده بود</h2></div>
+        <p class="section-desc">این ویژگی‌ها در طبیعت کمیاب‌اند؛ مخصوصاً وقتی هر سه در یک نفر جمع شوند.</p>
+      </div>
+      <div class="roast-grid">
+        <article class="roast-card">
+          <div class="roast-icon">📣</div>
+          <h3>سیستم صوتیِ بی‌نیاز از برق</h3>
+          <p>برای اعلام یک موضوع ساده، از <strong>حالت پخش عمومی فرودگاه</strong> استفاده می‌کند. دکمهٔ کم‌کردن صدا هنوز در نسخهٔ آزمایشی پیدا نشده.</p>
+        </article>
+        <article class="roast-card">
+          <div class="roast-icon">💅</div>
+          <h3>ناخن؛ ابزار مذاکرهٔ غیرکلامی</h3>
+          <p>وقتی استدلال‌ها به پایان می‌رسند، دست‌ها وارد جلسه می‌شوند. <strong>کارشناسان توصیه می‌کنند فاصلهٔ ایمن حفظ شود.</strong></p>
+        </article>
+        <article class="roast-card">
+          <div class="roast-icon">🏊🏻‍♀️</div>
+          <h3>شناگر حرفه‌ای، موج‌ساز اجتماعی</h3>
+          <p>در آب شنا می‌کند و بیرون آب هم somehow موج ایجاد می‌کند. <strong>استخر تنها جایی است که سر و صدایش توجیه ورزشی دارد.</strong></p>
+        </article>
+      </div>
+      <div class="warning-strip">
+        <div class="warning-icon">⚠️</div>
+        <div><strong>هشدار واحد کنترل آرامش</strong><span>ورود به بحث با جملهٔ «آروم باش» توصیه نمی‌شود؛ این عبارت معمولاً فقط مرحلهٔ دوم ماجرا را فعال می‌کند.</span></div>
+      </div>
+    </section>
+
+    <section class="section shell" id="comparison">
+      <article class="panel versus">
+        <div class="section-head" style="margin-bottom:0">
+          <div><div class="section-kicker">THE GREAT CONTRAST</div><h2>کیان در برابر کیانا؛ یک خانواده، دو سیستم‌عامل</h2></div>
+          <p class="section-desc">تست مقایسه‌ای انجام شد؛ نتیجه از قبل هم قابل حدس بود.</p>
         </div>
-
-        <!-- بخش مقایسه با کیان -->
-        <div class="comparison-section">
-            <h2 class="comparison-title">👥 دوقلوهای متضاد 👥</h2>
-            
-            <div class="comparison-grid">
-                <div class="person-card">
-                    <span class="person-icon">🥷</span>
-                    <h3 class="person-name">کیان</h3>
-                    <div class="person-traits">
-                        🧘 آرام و صبور<br>
-                        🎨 هنرمند و لطیف<br>
-                        🤍 قلب مهربان<br>
-                        😌 سلامت روان ✅
-                    </div>
-                </div>
-
-                <div class="vs-badge">VS</div>
-
-                <div class="person-card kiana">
-                    <span class="person-icon">🏊‍♀️</span>
-                    <h3 class="person-name">کیانا</h3>
-                    <div class="person-traits">
-                        📢 جیغ جیغی<br>
-                        💅 چنگ‌زننده<br>
-                        😤 همیشه طلبکار<br>
-                        🌪️ طوفان متحرک
-                    </div>
-                </div>
-            </div>
+        <div class="versus-grid">
+          <div class="person">
+            <div class="person-heading"><div class="person-emoji">🥷</div><div><h3>کیان</h3><small>نسخهٔ کم‌مصرف و کم‌حاشیه</small></div></div>
+            <ul>
+              <li>قبل از واکنش، چند ثانیه فکر می‌کند.</li>
+              <li>صدایش معمولاً با فاصلهٔ کمتر از سه محله شنیده می‌شود.</li>
+              <li>برای حل مسئله، اول سراغ گفت‌وگو می‌رود.</li>
+              <li>حالت سکوت در تنظیماتش فعال است.</li>
+            </ul>
+          </div>
+          <div class="versus-mark">VS</div>
+          <div class="person kiana">
+            <div class="person-heading"><div class="person-emoji">🏊🏻‍♀️</div><div><h3>کیانا</h3><small>نسخهٔ توربو با اعلان‌های دائمی</small></div></div>
+            <ul>
+              <li>اول واکنش نشان می‌دهد؛ بعداً شاید موضوع را بررسی کند.</li>
+              <li>صدایش قابلیت عبور از دیوارهای غیرمسلح را دارد.</li>
+              <li>برای حل مسئله، جلسهٔ فوق‌العاده تشکیل می‌دهد.</li>
+              <li>حالت سکوت؟ این قابلیت در منطقهٔ شما ارائه نمی‌شود.</li>
+            </ul>
+          </div>
         </div>
+        <p class="verdict">نتیجهٔ نهایی: کیان با آرامش مسئله را حل می‌کند؛ کیانا اول کاری می‌کند همه متوجه شوند مسئله‌ای وجود دارد.</p>
+      </article>
+    </section>
+  </main>
 
-        <!-- بخش ناخن‌های تیز -->
-        <div class="nails-section">
-            <h2 class="nails-title">💅 گالری ناخن‌های تیز 💅</h2>
-            <p style="color: white; font-size: 1.4em; margin-bottom: 20px;">
-                روی هر ناخن کلیک کن... اگه جرأت داری! 😈
-            </p>
-            <div class="nails-gallery">
-                <div class="nail-item">💅</div>
-                <div class="nail-item">💅</div>
-                <div class="nail-item">💅</div>
-                <div class="nail-item">💅</div>
-                <div class="nail-item">💅</div>
-            </div>
-        </div>
+  <footer>
+    <div class="footer-inner shell">
+      <div><div class="footer-title">پروندهٔ کیانا با موفقیت بایگانی نشد.</div><p class="footer-copy">چون سوژه هنوز در حال صحبت‌کردن است. ساخته‌شده با شوخی، کمی اغراق و مقدار زیادی احتیاط.</p></div>
+      <div class="footer-sign">واحد کنترل آشوب © ۲۰۲۶<br>تمام آمارها خیالی‌اند؛ آرامش شما واقعی باشد.</div>
     </div>
+  </footer>
 
-    <!-- فوتر -->
-    <footer>
-        <p class="footer-text">ساخته شده با... خب... با کمی ترس! 😅💖</p>
-        <div class="warning">
-            ⚠️ هشدار: ورود کیانا به این صفحه ممکن است باعث جیغ کشیدن شود! ⚠️
-        </div>
-        <div class="hearts">❤️ 🧡 💛 💚 💙 💜</div>
-        <p style="margin-top: 20px; font-size: 1.1em;">ساخته شده توسط حسین</p>
-    </footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script>
-        // افکت جیغ هنگام کلیک روی هدر
-        const header = document.querySelector('header');
-        header.addEventListener('click', function() {
-            const scream = document.createElement('div');
-            scream.className = 'scream-effect';
-            scream.textContent = '📢';
-            document.body.appendChild(scream);
-            
-            setTimeout(() => scream.remove(), 1000);
-        });
+  <script>
+    (() => {
+      const $ = (selector) => document.querySelector(selector);
+      const toast = $('#toast');
+      let toastTimer;
+      let screamCount = 0;
+      let meter = 97;
 
-        // افکت چنگ زدن روی ناخن‌ها
-        const nailItems = document.querySelectorAll('.nail-item');
-        nailItems.forEach(item => {
-            item.addEventListener('click', function() {
-                // ایجاد ذرات چنگ
-                for (let i = 0; i < 8; i++) {
-                    const scratch = document.createElement('div');
-                    scratch.textContent = '💥';
-                    scratch.style.position = 'fixed';
-                    scratch.style.fontSize = '30px';
-                    scratch.style.pointerEvents = 'none';
-                    scratch.style.zIndex = '1000';
-                    scratch.style.transition = 'all 0.8s ease-out';
-                    
-                    const rect = this.getBoundingClientRect();
-                    scratch.style.left = rect.left + rect.width / 2 + 'px';
-                    scratch.style.top = rect.top + rect.height / 2 + 'px';
-                    
-                    document.body.appendChild(scratch);
-                    
-                    const angle = (Math.PI * 2 / 8) * i;
-                    const distance = 100;
-                    
-                    setTimeout(() => {
-                        scratch.style.left = (rect.left + rect.width / 2 + Math.cos(angle) * distance) + 'px';
-                        scratch.style.top = (rect.top + rect.height / 2 + Math.sin(angle) * distance) + 'px';
-                        scratch.style.opacity = '0';
-                        scratch.style.transform = 'scale(2) rotate(' + (Math.random() * 360) + 'deg)';
-                    }, 10);
-                    
-                    setTimeout(() => scratch.remove(), 800);
-                }
-            });
-        });
+      const roasts = [
+        'کیانا تنها کسی است که می‌تواند از یک «باشه» سه قسمت سریال بسازد.',
+        'وقتی کیانا می‌گوید «یه چیزی بگم؟»، بهتر است برای شنیدن نسخهٔ کارگردان هم وقت خالی کنید.',
+        'بلندگوها از کیانا خواسته‌اند کمی آهسته‌تر زندگی کند.',
+        'کیانا وارد اتاق نمی‌شود؛ با اعلان عمومی حضورش را ثبت می‌کند.',
+        'در فرهنگ لغت کیانا، «بعداً» یعنی همین الان، با صدای بلندتر.',
+        'اگر انرژی کیانا قابل ذخیره‌سازی بود، مشکل برق کشور حل می‌شد؛ فقط قبض صدا باقی می‌ماند.'
+      ];
 
-        // افکت جیغ تصادفی هر ۱۰ ثانیه
-        setInterval(() => {
-            if (Math.random() > 0.7) {
-                const randomScream = document.createElement('div');
-                randomScream.className = 'scream-effect';
-                randomScream.textContent = ['📢', '😱', '🗯️'][Math.floor(Math.random() * 3)];
-                randomScream.style.left = Math.random() * 80 + 10 + '%';
-                randomScream.style.top = Math.random() * 80 + 10 + '%';
-                document.body.appendChild(randomScream);
-                
-                setTimeout(() => randomScream.remove(), 1000);
-            }
-        }, 10000);
+      const excuses = [
+        'من جیغ نزدم؛ فقط صدایم را با فضای اتاق هماهنگ کردم.',
+        'این طلبکاری نیست؛ خدمات مشتریانِ شخصیت من همیشه فعّال است.',
+        'من عصبانی نیستم؛ صورتم دارد با واقعیت مذاکره می‌کند.',
+        'سکوت کردم، ولی فقط برای اینکه بقیه فرصت کنند به اشتباهشان فکر کنند.',
+        'این بحث را شروع نکردم؛ فقط با قدرت وارد ادامه‌اش شدم.',
+        'ناخن‌ها مقصر نیستند؛ آن‌ها صرفاً در جلسه حضور داشتند.'
+      ];
 
-        // پیام کنایه‌آمیز
-        setTimeout(() => {
-            console.log('🌊 به دنیای کیانا خوش آمدید! 🌊');
-            console.log('🏊‍♀️ شناگر | 📢 جیغ‌زننده | 💅 چنگ‌زننده');
-            console.log('⚠️ هشدار: آرامش در این صفحه وجود ندارد! ⚠️');
-        }, 1000);
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2400);
+      }
 
-        // افکت موج روی کارت‌ها
-        const infoCards = document.querySelectorAll('.info-card');
-        infoCards.forEach((card, index) => {
-            card.addEventListener('mouseenter', function() {
-                this.style.animation = 'none';
-                setTimeout(() => {
-                    this.style.animation = 'wiggle 0.5s';
-                }, 10);
-            });
-        });
-    </script>
+      function pickDifferent(items, current) {
+        let next = current;
+        while (items.length > 1 && next === current) {
+          next = Math.floor(Math.random() * items.length);
+        }
+        return next;
+      }
+
+      let lastRoast = -1;
+      function randomRoast() {
+        lastRoast = pickDifferent(roasts, lastRoast);
+        $('#meterQuote').innerHTML = '<strong>گزارش لحظه‌ای:</strong> ' + roasts[lastRoast];
+        showToast('یک کنایه با موفقیت ثبت شد.');
+      }
+
+      $('#randomRoastBtn').addEventListener('click', randomRoast);
+      $('#screamBtn').addEventListener('click', () => {
+        screamCount += 1;
+        meter = Math.min(100, meter + 1);
+        $('#screamFeedback').textContent = `تعداد جیغ‌های ثبت‌شده: ${screamCount.toLocaleString('fa-IR')}`;
+        $('#meterValue').textContent = meter.toLocaleString('fa-IR');
+        $('#meterProgress').style.width = meter + '%';
+        $('#meterTrack').setAttribute('aria-valuenow', meter);
+        if (meter === 100) {
+          $('#meterQuote').innerHTML = '<strong>هشدار نهایی:</strong> شاخص به سقف رسید؛ لطفاً برای خودِ شاخص یک لیوان آب بیاورید.';
+        }
+        showToast('جیغ ثبت شد؛ پنجره‌ها همچنان در خطرند.');
+      });
+
+      let lastExcuse = -1;
+      $('#excuseBtn').addEventListener('click', () => {
+        lastExcuse = pickDifferent(excuses, lastExcuse);
+        $('#excuseText').textContent = `«${excuses[lastExcuse]}»`;
+      });
+    })();
+  </script>
 </body>
 </html>
